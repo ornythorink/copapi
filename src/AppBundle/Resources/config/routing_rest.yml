@@ -1,0 +1,5 @@
+#src/Obtao/UserBundle/Resources/config/routing_rest.yml
+users :
+  type: rest
+  resource:     "AppBundle:UserRest"
+  name_prefix:  api_
