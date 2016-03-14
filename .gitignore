@@ -1,4 +1,4 @@
-.idea/*
+.idea/workspace.xml
 
 # Cache and logs (Symfony2)
 /app/cache/*

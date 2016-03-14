@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FeedCSV
  *
  * @ORM\Table(name="feedcsv")
- * @ORM\Entity(repositoryClass="AppBundle\Entity\FeedCSVRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FeedCSVRepository")
  */
 class FeedCSV
 {

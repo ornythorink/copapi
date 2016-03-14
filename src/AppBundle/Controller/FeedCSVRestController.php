@@ -5,13 +5,13 @@ use FOS\RestBundle\Controller\FOSRestController;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class UserRestController extends FOSRestController
+class FeedCSVRestController extends FOSRestController
 {
-    public function getUserAction($username){
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneByUsername($username);
-        if(!is_object($user)){
+    public function getFeedAction($id){
+        $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->find($id);
+        if(!is_object($feed)){
             throw $this->createNotFoundException();
         }
-        return $user;
+        return $feed;
     }
 }
