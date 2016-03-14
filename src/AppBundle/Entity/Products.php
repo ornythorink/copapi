@@ -32,6 +32,7 @@ class Products
      * @var string
      *
      * @ORM\Column(name="id_api", type="string", nullable=true ,  length=255)
+     *
      */
     private $id_api;
 
