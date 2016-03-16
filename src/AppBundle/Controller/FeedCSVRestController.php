@@ -2,16 +2,96 @@
 
 namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\RouteResource;
+use AppBundle\Form\FeedCSVType;
 
 class FeedCSVRestController extends FOSRestController
 {
+
     public function getFeedAction($id){
-        $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->find($id);
+
+        $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->findBy($id);
+
         if(!is_object($feed)){
             throw $this->createNotFoundException();
         }
+
         return $feed;
     }
+
+    public function getFeedsAction(){
+        $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->findAll();
+
+        if(count($feeds) == 0){
+            throw $this->createNotFoundException();
+        }
+
+        return $feeds;
+    }
+
+    public function getToProcessAction($source, $locale){
+
+        $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getFeedsToProcess($source, $locale);
+
+        if(count($feeds) == 0){
+            throw $this->createNotFoundException();
+        }
+
+        return $feeds;
+    }
+
+    /**
+     *
+     * @Get("/api/feeds/active/{source}/{locale}")
+     */
+    public function getFeedsActive($source, $locale){
+        $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getFeedsToProcess($source, $locale);
+
+        if(count($feeds) == 0){
+            throw $this->createNotFoundException();
+        }
+
+        return $feeds;
+    }
+
+    /**
+     * @Get("/api/feeds/nexttoprocess/{source}/{locale}")
+     */
+    public function getFeedsNextToProcess($source, $locale){
+        $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getActiveFeeds($source, $locale);
+
+        if(count($feeds) == 0){
+            throw $this->createNotFoundException();
+        }
+
+        return $feeds;
+    }
+
+    public function putFeedsAction(Request $request, $id){
+
+        $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->find($id);
+
+        if(!is_object($feed)){
+            throw $this->createNotFoundException();
+        }
+        $form = $this->createForm(new FeedCSVType(),$feed);
+
+        $putItems = json_decode($request->getContent(),true);
+
+        $form->submit($putItems);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($feed);
+            $em->flush();
+        }
+
+        return $feed;
+    }
+
 }
+
+

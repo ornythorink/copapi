@@ -9,7 +9,8 @@ use AppBundle\Form\ProductsType;
 class ProductsRestController extends FOSRestController
 {
 
-    public function getProductAction($id){
+    public function getProductAction(Request $request, $id){
+
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
         if(!is_object($product)){
             throw $this->createNotFoundException();

@@ -33,25 +33,34 @@ class FeedCSVRepository extends EntityRepository
         $results = $query->getResult();
 
         return $results[0];
-
     }
 
-    public function findLogoFromActiveSite()
-    {
-        $query = $this->_em->createQuery(
-            "
-                SELECT
-                s
-                FROM AppBundle:FeedCSV s
-                WHERE s.active = 'Y'
-            "
+    public function getFeedsToProcess($source, $locale){
+
+        $feedsToProcess = $this->findBy(
+            array(
+                'locale' => $locale,
+                'source' => $source,
+                'flagbatched' => 'N',
+                'active' => 'Y'
+            )
         );
-
-        //$query->useQueryCache(true);
-
-        $results = $query->getResult();
-
-        return $results;
+        return $feedsToProcess;
     }
+
+    public function getActiveFeeds($source, $locale){
+
+        $feedsToProcess = $this->findBy(
+            array(
+                'locale' => $locale,
+                'source' => $source,
+                'active' => 'Y'
+            )
+        );
+        return $feedsToProcess;
+    }
+
+
+
     
 }
