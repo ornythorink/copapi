@@ -7,6 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use AppBundle\Form\FeedCSVType;
+use Doctrine\Common\Util\Inflector;
+
 
 class FeedCSVRestController extends FOSRestController
 {
@@ -72,16 +74,24 @@ class FeedCSVRestController extends FOSRestController
 
     public function putFeedsAction(Request $request, $id){
 
+        $putItems = json_decode($request->getContent() ,true);
+
+
         $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->find($id);
+
+        foreach($putItems as $field=> $value)
+        {
+            $setter = sprintf('set%s', ucfirst(Inflector::camelize($field)));
+            $feed->$setter($value);
+        }
 
         if(!is_object($feed)){
             throw $this->createNotFoundException();
         }
         $form = $this->createForm(new FeedCSVType(),$feed);
 
-        $putItems = json_decode($request->getContent(),true);
-
-        $form->submit($putItems);
+        $form->handleRequest($request);
+        $form->submit($request->getContent());
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();

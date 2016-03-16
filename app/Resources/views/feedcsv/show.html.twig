@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FeedCSV</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ feedCSV.id }}</td>
+            </tr>
+            <tr>
+                <th>Idstoreapi</th>
+                <td>{{ feedCSV.idStoreApi }}</td>
+            </tr>
+            <tr>
+                <th>Source</th>
+                <td>{{ feedCSV.source }}</td>
+            </tr>
+            <tr>
+                <th>Locale</th>
+                <td>{{ feedCSV.locale }}</td>
+            </tr>
+            <tr>
+                <th>Feed</th>
+                <td>{{ feedCSV.feed }}</td>
+            </tr>
+            <tr>
+                <th>Flagbatched</th>
+                <td>{{ feedCSV.flagbatched }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ feedCSV.active }}</td>
+            </tr>
+            <tr>
+                <th>Broken</th>
+                <td>{{ feedCSV.broken }}</td>
+            </tr>
+            <tr>
+                <th>Sitename</th>
+                <td>{{ feedCSV.sitename }}</td>
+            </tr>
+            <tr>
+                <th>Siteslug</th>
+                <td>{{ feedCSV.siteslug }}</td>
+            </tr>
+            <tr>
+                <th>Siteurl</th>
+                <td>{{ feedCSV.siteurl }}</td>
+            </tr>
+            <tr>
+                <th>Logostore</th>
+                <td>{{ feedCSV.logostore }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('feedcsv_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('feedcsv_edit', { 'id': feedCSV.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

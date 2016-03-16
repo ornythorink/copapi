@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FeedCSV list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Idstoreapi</th>
+                <th>Source</th>
+                <th>Locale</th>
+                <th>Feed</th>
+                <th>Flagbatched</th>
+                <th>Active</th>
+                <th>Broken</th>
+                <th>Sitename</th>
+                <th>Siteslug</th>
+                <th>Siteurl</th>
+                <th>Logostore</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for feedCSV in feedCSVs %}
+            <tr>
+                <td><a href="{{ path('feedcsv_show', { 'id': feedCSV.id }) }}">{{ feedCSV.id }}</a></td>
+                <td>{{ feedCSV.idStoreApi }}</td>
+                <td>{{ feedCSV.source }}</td>
+                <td>{{ feedCSV.locale }}</td>
+                <td>{{ feedCSV.feed }}</td>
+                <td>{{ feedCSV.flagbatched }}</td>
+                <td>{{ feedCSV.active }}</td>
+                <td>{{ feedCSV.broken }}</td>
+                <td>{{ feedCSV.sitename }}</td>
+                <td>{{ feedCSV.siteslug }}</td>
+                <td>{{ feedCSV.siteurl }}</td>
+                <td>{{ feedCSV.logostore }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('feedcsv_show', { 'id': feedCSV.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('feedcsv_edit', { 'id': feedCSV.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('feedcsv_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
