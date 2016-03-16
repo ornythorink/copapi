@@ -245,6 +245,32 @@ class Products
     }
 
 
+    public function createFromArray($data)
+    {
+
+        $createdAt = new \DateTime($data["created_at"]);
+        $updatedAt = new \DateTime($data["update_at"]);
+
+        $this->setName($data["name"]);
+        $this->setPrice($data["price"]);
+        $this->setCurrency($data["currency"]);
+        $this->setSiteId($data["site_id"]);
+        $this->setLogostore($data["logostore"]);
+        $this->setStatus($data["status"]);
+        $this->setBrand($data["brand"]);
+        $this->setImage($data["image"]);
+        $this->setSourceId($data["source_id"]);
+        $this->setSourceType($data["source_type"]);
+        $this->setProgram($data["program"]);
+        $this->setLocale($data["locale"]);
+        $this->setCategoryMerchant($data["category_merchant"]);
+        $this->setCreatedAt($createdAt);
+        $this->setUpdateAt($updatedAt);
+        $this->setDescription($data["description"]);
+        $this->setUrl($data["url"]);
+        $this->setShortUrl($data["short_url"]);
+    }
+
     /**
      * Get id
      *

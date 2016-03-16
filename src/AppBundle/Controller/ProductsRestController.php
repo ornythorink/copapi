@@ -18,20 +18,20 @@ class ProductsRestController extends FOSRestController
     }
 
     public function postProductAction(Request $request){
+        $json = $request->request->all();
+
         $product = new Products();
+
         $form = $this->createForm(ProductsType::class, $product);
 
         $form->handleRequest($request);
         $form->submit($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
 
-            try{
-                $em->persist($product);
-                $em->flush();
-            } catch ( \Exception $e) {
-               \Doctrine\Common\Util\Debug::dump($e->getMessage());
-            }
+        if ($form->isValid()) {
+            $product->createFromArray($json);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
         }
         return $product;
     }
