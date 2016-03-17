@@ -3,9 +3,7 @@
 namespace AppBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
 use AppBundle\Form\FeedCSVType;
 use Doctrine\Common\Util\Inflector;
 
@@ -34,6 +32,10 @@ class FeedCSVRestController extends FOSRestController
         return $feeds;
     }
 
+    /**
+     *
+     * @Get("/feeds/toprocess/{source}/{locale}")
+     */
     public function getToProcessAction($source, $locale){
 
         $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getFeedsToProcess($source, $locale);
@@ -45,11 +47,12 @@ class FeedCSVRestController extends FOSRestController
         return $feeds;
     }
 
+
     /**
      *
-     * @Get("/api/feeds/active/{source}/{locale}")
+     * @Get("/feeds/active/{source}/{locale}")
      */
-    public function getFeedsActive($source, $locale){
+    public function getFeedsActiveAction($source,$locale){
         $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getFeedsToProcess($source, $locale);
 
         if(count($feeds) == 0){
@@ -60,9 +63,10 @@ class FeedCSVRestController extends FOSRestController
     }
 
     /**
-     * @Get("/api/feeds/nexttoprocess/{source}/{locale}")
+     *
+     * @Get("/feeds/next/{source}/{locale}")
      */
-    public function getFeedsNextToProcess($source, $locale){
+    public function getFeedsNextToProcessAction($source,$locale){
         $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getActiveFeeds($source, $locale);
 
         if(count($feeds) == 0){
