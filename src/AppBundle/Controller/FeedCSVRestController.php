@@ -86,6 +86,9 @@ class FeedCSVRestController extends FOSRestController
         foreach($putItems as $field=> $value)
         {
             $setter = sprintf('set%s', ucfirst(Inflector::camelize($field)));
+            if(preg_match('/\d{4}-\d{2}-\d{2}/',$value)){
+                $value = new \DateTime($value);
+            }
             $feed->$setter($value);
         }
 

@@ -247,7 +247,6 @@ class Products
 
     public function createFromArray($data)
     {
-
         $createdAt = new \DateTime($data["created_at"]);
         $updatedAt = new \DateTime($data["update_at"]);
 

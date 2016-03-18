@@ -10,8 +10,41 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="blacklist_categories" , indexes={@ORM\Index(name="tamerelagrosse_idx", columns={"pending"})}  )
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BlacklistCategoriesRepository")
  */
-class BlacklistCategories
+class BlackListCategories
 {
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     *
+     */
+    private $id;
+
+    /**
+     * @var string
+     * @ORM\OneToOne(targetEntity="Pending")
+     * @ORM\JoinColumn(name="pending" , referencedColumnName="id",  nullable=false)
+     */
+    private $pending;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="createdAt", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="updateAt", type="datetime")
+     */
+    private $updateAt;
 
     /**
      * @return string
@@ -19,6 +52,23 @@ class BlacklistCategories
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPending()
+    {
+        return $this->pending;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -48,54 +98,4 @@ class BlacklistCategories
         $this->updateAt = $updateAt;
         return $this;
     }
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     *
-     */
-    private $id;
-
-    /**
-     * @var string
-     * @ORM\OneToOne(targetEntity="Pending")
-     * @ORM\JoinColumn(name="pending" , referencedColumnName="id",  nullable=false)
-     */
-    private $pending;
-
-    /**
-     * @return string
-     */
-    public function getPending()
-    {
-        return $this->pending;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="createdAt", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateAt", type="datetime")
-     */
-    private $updateAt;
-
 }
