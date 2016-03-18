@@ -45,6 +45,7 @@ class FeedCSVRepository extends EntityRepository
                 'active' => 'Y'
             )
         );
+
         return $feedsToProcess;
     }
 

@@ -37,12 +37,7 @@ class FeedCSVRestController extends FOSRestController
      * @Get("/feeds/toprocess/{source}/{locale}")
      */
     public function getToProcessAction($source, $locale){
-
         $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getFeedsToProcess($source, $locale);
-
-        if(count($feeds) == 0){
-            throw $this->createNotFoundException();
-        }
 
         return $feeds;
     }
