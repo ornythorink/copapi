@@ -81,6 +81,10 @@ class WhiteListCategoriesRestController extends FOSRestController
 
         $whitelist = $this->getDoctrine()->getRepository('AppBundle:WhiteListCategories')->find($id);
 
+        if(!is_object($whitelist)){
+            throw $this->createNotFoundException();
+        }
+
         foreach($putItems as $field=> $value)
         {
             $setter = sprintf('set%s', ucfirst(Inflector::camelize($field)));
@@ -90,9 +94,6 @@ class WhiteListCategoriesRestController extends FOSRestController
             $whitelist->$setter($value);
         }
 
-        if(!is_object($whitelist)){
-            throw $this->createNotFoundException();
-        }
         $form = $this->createForm(new WhiteListCategoriesType(),$whitelist);
 
         $form->handleRequest($request);
