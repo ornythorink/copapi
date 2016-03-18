@@ -11,3 +11,15 @@ products :
   type: rest
   resource:     "AppBundle:ProductsRest"
   name_prefix:  api_
+pending :
+  type: rest
+  resource:     "AppBundle:PendingRest"
+  name_prefix:  api_
+whitelist_categories :
+  type: rest
+  resource:     "AppBundle:WhiteListCategoriesRest"
+  name_prefix:  api_
+blacklist_categories :
+  type: rest
+  resource:     "AppBundle:BlackListCategoriesRest"
+  name_prefix:  api_
