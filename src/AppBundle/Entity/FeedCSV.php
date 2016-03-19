@@ -77,7 +77,7 @@ class FeedCSV
     /**
      * @var string
      *
-     * @ORM\Column(name="flagbatched", type="string", length=1)
+     * @ORM\Column(name="flagbatched", type="string", length=100)
      */
     private $flagbatched;
 

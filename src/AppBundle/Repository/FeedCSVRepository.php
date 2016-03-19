@@ -61,6 +61,31 @@ class FeedCSVRepository extends EntityRepository
         return $feedsToProcess;
     }
 
+    public function getInactiveFeeds($source, $locale){
+
+        $feedsToProcess = $this->findBy(
+            array(
+                'locale' => $locale,
+                'source' => $source,
+                'active' => 'N'
+            )
+        );
+        return $feedsToProcess;
+    }
+
+    public function getToPut($id){
+        $query = $this->_em->createQuery(
+            "
+                SELECT
+                  s
+                FROM AppBundle\Entity\FeedCSV s
+                WHERE s.id = :id
+            "
+        );
+
+        $query->setParameter('id', $id);
+        $results = $query->getArrayResult();
+    }
 
 
     

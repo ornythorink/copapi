@@ -35,7 +35,8 @@ class FeedCSVType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\FeedCSV'
+            'data_class' => 'AppBundle\Entity\FeedCSV',
+             'csrf_protection'   => false,
         ));
     }
 }
