@@ -6,11 +6,14 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Products;
 use AppBundle\Form\ProductsType;
 use Doctrine\Common\Util\Inflector;
-
+use FOS\RestBundle\Controller\Annotations\Get;
 
 class ProductsRestController extends FOSRestController
 {
-
+    /**
+     *
+     * @Get("/products/{id}")
+     */
     public function getProductAction($id){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
@@ -20,6 +23,10 @@ class ProductsRestController extends FOSRestController
         return array($product);
     }
 
+    /**
+     *
+     * @Get("/products/{id}")
+     */
     public function getProductsAction(){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
