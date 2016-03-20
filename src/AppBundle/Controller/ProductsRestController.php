@@ -7,12 +7,14 @@ use AppBundle\Entity\Products;
 use AppBundle\Form\ProductsType;
 use Doctrine\Common\Util\Inflector;
 use FOS\RestBundle\Controller\Annotations AS Rest;
+Use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class ProductsRestController extends FOSRestController
 {
     /**
      * @Rest\View
      * @Rest\Get("/products/{id}")
+     * @Method({"GET"})
      */
     public function getProductAction($id){
 
@@ -26,6 +28,7 @@ class ProductsRestController extends FOSRestController
     /**
      * @Rest\View
      * @Rest\Get("/products")
+     * @Method({"GET"})
      */
     public function getProductsAction(){
 
@@ -37,6 +40,7 @@ class ProductsRestController extends FOSRestController
     /**
      * @Rest\View
      * @Rest\Post("/products")
+     * @Method({"POST"})
      */
     public function postProductAction(Request $request){
         $json = $request->request->all();
@@ -68,6 +72,7 @@ class ProductsRestController extends FOSRestController
     /**
      * @Rest\View
      * @Rest\Put("/products")
+     * @Method({"PUT"})
      */
     public function putProductsAction(Request $request, $id){
 
