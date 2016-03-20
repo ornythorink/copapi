@@ -91,7 +91,7 @@ class FeedCSVRestController extends FOSRestController
         $form = $this->createForm(new FeedCSVType(),$feed);
 
         $form->submit($request->getContent());
-        \Doctrine\Common\Util\Debug::dump($form->isValid());
+
         if ($form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();

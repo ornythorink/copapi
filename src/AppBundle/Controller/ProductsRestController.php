@@ -6,79 +6,47 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Products;
 use AppBundle\Form\ProductsType;
 use Doctrine\Common\Util\Inflector;
-use FOS\RestBundle\Controller\Annotations AS Rest;
 Use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Put;
 
 class ProductsRestController extends FOSRestController
 {
-    /**
-     * @Rest\View
-     * @Rest\Get("/products/{id}")
-     * @Method({"GET"})
-     */
+
     public function getProductAction($id){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
+
         if(!is_object($product)){
             throw $this->createNotFoundException();
         }
+
         return $product;
     }
 
-    /**
-     * @Rest\View
-     * @Rest\Get("/products")
-     * @Method({"GET"})
-     */
     public function getProductsAction(){
+        $products = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
 
-        $product = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
-
-        return $product;
-    }
-
-    /**
-     * @Rest\View
-     * @Rest\Post("/products")
-     * @Method({"POST"})
-     */
-    public function postProductAction(Request $request){
-        $json = $request->request->all();
-
-        $product = new Products();
-
-        $form = $this->createForm(ProductsType::class, $product);
-
-        $form->handleRequest($request);
-        $form->submit($request);
-
-        if ($form->isValid()) {
-            foreach($json as $field=> $value)
-            {
-                $setter = sprintf('set%s', ucfirst(Inflector::camelize($field)));
-                if(preg_match('/\d{4}-\d{2}-\d{2}/',$value)){
-                    $value = new \DateTime($value);
-                }
-                $product->$setter($value);
-            }
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
+        if(count($products) == 0){
+            throw $this->createNotFoundException();
         }
-        return $product;
+
+        return $products;
+    }
+
+    public function postProductsAction(Request $request){
+
     }
 
     /**
-     * @Rest\View
-     * @Rest\Put("/products")
-     * @Method({"PUT"})
+     *
+     * @Put("/products/{id}")
      */
     public function putProductsAction(Request $request, $id){
 
-        $putItems = json_decode($request->getContent() ,true);
+        $putItems = json_decode($request->getContent(),true);
 
-        $products = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
+        $product = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
 
         foreach($putItems as $field=> $value)
         {
@@ -86,24 +54,21 @@ class ProductsRestController extends FOSRestController
             if(preg_match('/\d{4}-\d{2}-\d{2}/',$value)){
                 $value = new \DateTime($value);
             }
-            $products->$setter($value);
+            $product->$setter($value);
         }
+        $form = $this->createForm(new ProductsType(),$product);
 
-        if(!is_object($products)){
-            throw $this->createNotFoundException();
-        }
-        $form = $this->createForm(new ProductsType(),$products);
-
-        $form->handleRequest($request);
         $form->submit($request->getContent());
 
         if ($form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($products);
+            $em->persist($product);
             $em->flush();
         }
 
-        return $products;
+        return $product;
     }
+
 
 }
