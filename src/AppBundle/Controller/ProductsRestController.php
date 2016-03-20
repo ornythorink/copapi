@@ -25,7 +25,7 @@ class ProductsRestController extends FOSRestController
 
     /**
      *
-     * @Get("/products/{id}")
+     * @Get("/products")
      */
     public function getProductsAction(){
 
