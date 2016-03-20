@@ -22,18 +22,18 @@ class ProductsRestController extends FOSRestController
         if(!is_object($product)){
             throw $this->createNotFoundException();
         }
-        return array($product);
+        return $product;
     }
 
     /**
      *
-     * @Get("/allproducts")
+     * @Get("/products")
      */
     public function getProductsAction(){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
 
-        return array($product);
+        return $product;
     }
 
     /**
