@@ -20,6 +20,15 @@ class ProductsRestController extends FOSRestController
         return array($product);
     }
 
+    public function getProductsAction(){
+
+        $product = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
+        if(!is_object($product)){
+            throw $this->createNotFoundException();
+        }
+        return array($product);
+    }
+
     public function postProductAction(Request $request){
         $json = $request->request->all();
 
