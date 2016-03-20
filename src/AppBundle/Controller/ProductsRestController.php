@@ -34,6 +34,10 @@ class ProductsRestController extends FOSRestController
         return array($product);
     }
 
+    /**
+     *
+     * @Post("/products")
+     */
     public function postProductAction(Request $request){
         $json = $request->request->all();
 
