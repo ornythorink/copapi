@@ -6,13 +6,14 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Products;
 use AppBundle\Form\ProductsType;
 use Doctrine\Common\Util\Inflector;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations AS Rest;
 
 class ProductsRestController extends FOSRestController
 {
-
+    /**
+     * @Rest\View
+     * @Rest\Get("/products/{id}")
+     */
     public function getProductAction($id){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
@@ -22,6 +23,10 @@ class ProductsRestController extends FOSRestController
         return $product;
     }
 
+    /**
+     * @Rest\View
+     * @Rest\Get("/products")
+     */
     public function getProductsAction(){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
@@ -29,7 +34,10 @@ class ProductsRestController extends FOSRestController
         return $product;
     }
 
-
+    /**
+     * @Rest\View
+     * @Rest\Post("/products")
+     */
     public function postProductAction(Request $request){
         $json = $request->request->all();
 
@@ -58,8 +66,8 @@ class ProductsRestController extends FOSRestController
     }
 
     /**
-     *
-     * @Put("/products")
+     * @Rest\View
+     * @Rest\Put("/products")
      */
     public function putProductsAction(Request $request, $id){
 
