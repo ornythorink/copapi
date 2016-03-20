@@ -8,6 +8,7 @@ use AppBundle\Form\ProductsType;
 use Doctrine\Common\Util\Inflector;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Put;
 
 class ProductsRestController extends FOSRestController
 {
@@ -66,6 +67,10 @@ class ProductsRestController extends FOSRestController
         return $product;
     }
 
+    /**
+     *
+     * @Put("/products")
+     */
     public function putProductsAction(Request $request, $id){
 
         $putItems = json_decode($request->getContent() ,true);
