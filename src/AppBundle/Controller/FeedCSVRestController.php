@@ -33,6 +33,11 @@ class FeedCSVRestController extends FOSRestController
         return $feeds;
     }
 
+    public function postFeedsAction(Request $request){
+
+    }
+
+
     /**
      *
      * @Get("/feeds/toprocess/{source}/{locale}")

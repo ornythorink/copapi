@@ -12,10 +12,7 @@ use FOS\RestBundle\Controller\Annotations\Put;
 
 class ProductsRestController extends FOSRestController
 {
-    /**
-     *
-     * @Get("/products/{id}")
-     */
+
     public function getProductAction($id){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->find($id);
@@ -25,10 +22,6 @@ class ProductsRestController extends FOSRestController
         return $product;
     }
 
-    /**
-     *
-     * @Get("/products")
-     */
     public function getProductsAction(){
 
         $product = $this->getDoctrine()->getRepository('AppBundle:Products')->findAll();
@@ -36,10 +29,7 @@ class ProductsRestController extends FOSRestController
         return $product;
     }
 
-    /**
-     *
-     * @Post("/products")
-     */
+
     public function postProductAction(Request $request){
         $json = $request->request->all();
 
