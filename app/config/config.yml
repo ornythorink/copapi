@@ -73,14 +73,16 @@ fos_user:
 
 #  FOS rest
 fos_rest:
+    allowed_methods_listener: true
     param_fetcher_listener: true
     body_listener: true
     format_listener: true
     view:
         view_response_listener: 'force'
         formats:
-            xml: true
             json : true
+        mime_types:
+            json: ['application/json; charset=UTF-8', 'application/json']
         templating_formats:
             html: true
         force_redirects:
@@ -89,6 +91,7 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
+        include_format: false
 
 nelmio_cors:
     defaults:
