@@ -7,6 +7,7 @@ use AppBundle\Entity\Products;
 use AppBundle\Form\ProductsType;
 use Doctrine\Common\Util\Inflector;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 
 class ProductsRestController extends FOSRestController
 {
