@@ -59,7 +59,6 @@ class FeedCSVRestController extends FOSRestController
     public function getFeedsActiveAction($source,$locale){
         $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getActiveFeeds($source, $locale);
 
-
         return $feeds;
     }
 
@@ -68,44 +67,42 @@ class FeedCSVRestController extends FOSRestController
      * @Get("/feeds/next/{source}/{locale}")
      */
     public function getFeedsNextToProcessAction($source,$locale){
-        $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->getFeedsToProcess($source, $locale);
+        $feeds = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->retrieveNextCsvFeed($source, $locale);
 
         return $feeds;
     }
 
     /**
      *
-     * @Put("/feeds/{id}")
+     * @Put("/feeds/unflag/{id}")
      */
-    public function putFeedsAction(Request $request, $id){
+    public function unflagFeedsAction(Request $request, $id){
 
-        $putItems = json_decode($request->getContent(),true);
+        $putItems = json_decode($request->getContent() ,true);
 
         $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->find($id);
-
-        foreach($putItems as $field=> $value)
-        {
-            $setter = sprintf('set%s', ucfirst(Inflector::camelize($field)));
-            if(preg_match('/\d{4}-\d{2}-\d{2}/',$value)){
-                $value = new \DateTime($value);
-            }
-            $feed->$setter($value);
-        }
-        $form = $this->createForm(new FeedCSVType(),$feed);
-
-        $form->submit($request->getContent());
-
-        if ($form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($feed);
-            $em->flush();
-        }
+        $feed->setFlagbatched('N');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($feed);
+        $em->flush();
 
         return $feed;
     }
 
+    /**
+     *
+     * @Put("/feeds/flag/{id}")
+     */
+    public function flagFeedsAction(Request $request, $id){
 
+        $feed = $this->getDoctrine()->getRepository('AppBundle:FeedCSV')->find($id);
+        $feed->setFlagbatched('Y');
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($feed);
+        $em->flush();
+
+        return $feed;
+    }
 }
 
 

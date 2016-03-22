@@ -39,4 +39,12 @@ class FeedCSVType extends AbstractType
              'csrf_protection'   => false,
         ));
     }
+
+    /**
+     * @return string
+     */
+    public function getName() {
+        return 'feedcsv_type';
+    }
+
 }

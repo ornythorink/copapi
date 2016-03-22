@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\FeedCSV;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -85,6 +86,23 @@ class FeedCSVRepository extends EntityRepository
 
         $query->setParameter('id', $id);
         $results = $query->getArrayResult();
+    }
+
+    /**
+     * Persists type to database if it doesn't exist in database.
+     * If the type is already persisted (has id), it is updated (merged).
+     *
+     * @param $feed
+     * @return $feed
+     */
+    public function persistType(FeedCSV $feed) {
+        if ($feed->getId() !== NULL) {
+            $feed = $this->_em->merge($feed);
+        } else {
+            $this->_em->persist($feed);
+        }
+        $this->_em->flush();
+        return $feed;
     }
 
 
