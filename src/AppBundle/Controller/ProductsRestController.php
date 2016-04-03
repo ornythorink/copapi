@@ -50,25 +50,13 @@ class ProductsRestController extends FOSRestController
      */
     public function importProductsAction(Request $request, $source, $feedId){
 
-        $logger = $this->get('logger');
-        $logger->error(var_dump(json_decode($request->request->all(),true)));
-
-        exit;
-
-
-        $produits = json_decode($return['json'],true);
-
-        \Doctrine\Common\Util\Debug::dump($produits);
-        $logger->error('plop', $produits);
-
-
-
+        $produits = $request->request->all();
 
         $prefix= Sources::getSourceKey($source,'prefix');
         $method = $prefix . 'ImportCsv';
         $products = $this->getDoctrine()->getRepository('AppBundle:Products')->$method($produits,$feedId);
 
-        return true;
+        return $products;
     }
 
 }
