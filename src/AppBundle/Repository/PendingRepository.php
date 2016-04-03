@@ -30,15 +30,8 @@ class PendingRepository extends EntityRepository
 
     }
 
-    public function createOrReplacePending($params, $source)
+    public function createOrReplacePending($pending, $source)
     {
-        $slugify = new Slugify();
-        $source_category = Sources::getSourceKey($source, 'merchantCategoryName');
-
-        $slugified_source_category = $slugify->slugify($params['produit'][$source_category] );
-        $label = $params['produit'][$source_category] ;
-
-
         $statement = $this->_em->getConnection()->prepare('
                                 INSERT INTO pending
                                 SET
@@ -48,10 +41,12 @@ class PendingRepository extends EntityRepository
                                 ON DUPLICATE KEY UPDATE
                                     createdAt  =  NOW() ');
 
-        $statement->bindValue('slugified_source_category', $slugified_source_category);
-        $statement->bindValue('label', $label);
+        $statement->bindValue('slugified_source_category', $pending->getId() );
+        $statement->bindValue('label', $pending->getLabel() );
 
 
         $statement->execute();
+
+        return $statement;
     }
 }

@@ -35,10 +35,6 @@ class BlackListCategoriesRestController extends FOSRestController
     public function getAllBlackListCategoriesAction(){
         $blacklist = $this->getDoctrine()->getRepository('AppBundle:BlackListCategories')->findAll();
 
-        if(!is_object($blacklist)){
-            throw $this->createNotFoundException();
-        }
-
         return $blacklist;
     }
 

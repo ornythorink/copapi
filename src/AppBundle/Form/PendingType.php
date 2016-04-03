@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class PendingType extends AbstractType
 {
@@ -16,7 +17,13 @@ class PendingType extends AbstractType
     {
         $builder
             ->add('id')
-            ->add('createdat', 'datetime')
+            ->add('createdat', DateTimeType::class,
+                array(
+                    'widget' => 'single_text',
+                    // this is actually the default format for single_text
+                    'format' => DateTimeType::HTML5_FORMAT,
+                )
+            )
             ->add('label')
         ;
     }
@@ -27,7 +34,8 @@ class PendingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Pending'
+            'data_class' => 'AppBundle\Entity\Pending',
+            'csrf_protection'   => false
         ));
     }
 }

@@ -6,15 +6,22 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\PendingType;
 use Doctrine\Common\Util\Inflector;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Put;
+use FOS\RestBundle\Controller\Annotations\Post;
+
+
 
 class PendingRestController extends FOSRestController
 {
     public function getPendingAction($id){
         $pending = $this->getDoctrine()->getRepository('AppBundle:Pending')->find($id);
 
-        if(!is_object($pending)){
-            throw $this->createNotFoundException();
-        }
+        return $pending;
+    }
+
+    public function getPendingsAction(){
+        $pending = $this->getDoctrine()->getRepository('AppBundle:Pending')->findAll();
 
         return $pending;
     }
@@ -38,6 +45,27 @@ class PendingRestController extends FOSRestController
             }
             return $pending;
     }
+
+    /**
+     *
+     * @Post("/pendings/replace/{source}")
+     */
+    public function replacePendingAction(Request $request, $source){
+
+        $logger = $this->get('logger');
+        $logger->error(\Doctrine\Common\Util\Debug::dump($request->request->all()));
+        $form = $this->createForm(PendingType::class, new Pending(), array('method' => 'POST') );
+
+        $form->submit($request->request->all(), 'PATCH' !== 'POST' );
+        $logger->error($form->getErrors());
+        if ($form->isValid()) {
+
+            $pending = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $stmt = $em->getRepository('AppBundle:Pending')->createOrReplacePending($pending, $source);
+        }
+    }
+
 
     public function putPendingAction(Request $request, $id){
 

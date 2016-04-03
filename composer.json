@@ -21,7 +21,8 @@
         "jms/serializer-bundle": "^1.1",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "cocur/slugify": "^2.0",
-        "nelmio/cors-bundle": "^1.4"
+        "nelmio/cors-bundle": "^1.4",
+        "guzzlehttp/guzzle-services": "^0.5.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

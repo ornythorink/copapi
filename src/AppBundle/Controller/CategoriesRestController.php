@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Categories;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
-
+use FOS\RestBundle\Controller\Annotations\Get;
 
 class CategoriesRestController extends FOSRestController
 {
@@ -27,6 +27,18 @@ class CategoriesRestController extends FOSRestController
 
         return $categories;
     }
+
+    /**
+     *
+     * @Get("/root/categories")
+     */
+    public function getRootCategoriesAction(){
+        $categories = $this->getDoctrine()->getRepository('AppBundle:Categories')->findRootCategories();
+
+        return $categories;
+    }
+
+
 
     public function postCategoriesAction(Request $request){
         $json = $request->request->all();

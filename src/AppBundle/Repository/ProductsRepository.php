@@ -163,7 +163,6 @@ class ProductsRepository extends EntityRepository
         $site = $repoFeed->find($feedId);
         $sitename = $site->getSitename();
 
-
         $image = "";
         if ($produit['ImageLargeURL'] != "" && $produit['ImageLargeURL'] !== null) {
             $image = $produit['ImageLargeURL'];

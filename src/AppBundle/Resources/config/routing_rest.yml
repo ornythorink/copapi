@@ -11,6 +11,10 @@ products :
   type: rest
   resource:     "AppBundle:ProductsRest"
   name_prefix:  api_
+categories :
+  type: rest
+  resource:     "AppBundle:CategoriesRest"
+  name_prefix:  api_
 pending :
   type: rest
   resource:     "AppBundle:PendingRest"
