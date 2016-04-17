@@ -1,4 +1,5 @@
 .idea/workspace.xml
+nohup.out
 
 # Cache and logs (Symfony2)
 /app/cache/*
