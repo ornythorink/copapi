@@ -179,6 +179,7 @@ class ProductsRepository extends EntityRepository
                         (
                             id,
                             name,
+                            ean,
                             price,
                             currency,
                             site_id,
@@ -202,6 +203,7 @@ class ProductsRepository extends EntityRepository
                          ) VALUES (
                             NULL,
                             :name,
+                            :ean,
                             :price,
                             :currency,
                             :site_id,
@@ -228,6 +230,7 @@ SQL;
 
         $stmt = $this->_em->getConnection()->prepare($sql);
         $stmt->bindValue("name", $produit['ProductName']);
+        $stmt->bindValue("ean", $produit['ProductEAN']);
         $stmt->bindValue("price", $produit['ProductPrice']);
         $stmt->bindValue("currency", $produit['CurrencySymbolOfPrice']);
         $stmt->bindValue("site_id", $feedId);
@@ -265,6 +268,7 @@ SQL;
                         (
                             id,
                             name,
+                            ean,
                             price,
                             currency,
                             site_id,
@@ -288,6 +292,7 @@ SQL;
                          ) VALUES (
                             NULL,
                             :name,
+                            :ean
                             :price,
                             :currency,
                             :site_id,
@@ -314,6 +319,7 @@ SQL;
 
         $stmt = $this->_em->getConnection()->prepare($sql);
         $stmt->bindValue("name", $produit['name']);
+        $stmt->bindValue("ean", $produit['ean']);
         $stmt->bindValue("price", $produit['price']);
         $stmt->bindValue("currency", $produit['currency']);
         $stmt->bindValue("site_id", $feedId);
@@ -336,6 +342,96 @@ SQL;
         $stmt->execute();
     }
 
+
+    public function EffImportCsv(array $produit, $feedId)
+    {
+
+        $repoFeed = $this->_em->getRepository('AppBundle\Entity\FeedCSV');
+
+        $site = $repoFeed->find($feedId);
+        $sitename = $site->getSitename();
+
+
+        $sql  = <<<SQL
+                            INSERT IGNORE
+                        INTO products
+                        (
+                            id,
+                            name,
+                            ean,
+                            price,
+                            currency,
+                            site_id,
+                            promo,
+                            `status`,
+                            brand,
+                            image,
+                            source_id,
+                            program,
+                            actif,
+                            locale,
+                            category_merchant,
+                            softdeleted,
+                            createdAt,
+                            updateAt,
+                            description,
+                            url,
+                            short_url,
+                            source_type,
+                            logostore
+                         ) VALUES (
+                            NULL,
+                            :name,
+                            :ean
+                            :price,
+                            :currency,
+                            :site_id,
+                            :promo,
+                            :status,
+                            :brand,
+                            :image,
+                            :source_id,
+                            :program,
+                            :actif,
+                            :locale,
+                            :category_merchant,
+                            :softdeleted,
+                             NOW(),
+                             NOW(),
+                            :description,
+                            :url,
+                            :short_url,
+                            :source_type,
+                            :logostore
+
+                         );
+SQL;
+
+        $stmt = $this->_em->getConnection()->prepare($sql);
+        $stmt->bindValue("name", $produit['name']);
+        $stmt->bindValue("ean", $produit['ean']);
+        $stmt->bindValue("price", $produit['price']);
+        $stmt->bindValue("currency", 'EUR' );
+        $stmt->bindValue("site_id", $feedId);
+        $stmt->bindValue("promo", $produit['price']);
+        $stmt->bindValue("status", "Validation");
+        $stmt->bindValue("brand", $produit['brand']);
+        $stmt->bindValue("image", $produit['url_image']);
+        $stmt->bindValue("source_id", 'tdd');
+        $stmt->bindValue("program", $sitename);
+        $stmt->bindValue("actif", 'Y');
+        $stmt->bindValue("locale", 'fr');
+        $stmt->bindValue("category_merchant", $produit['merchant_store_name']
+            . ' ' . $produit['merchant_univers_name'] . ' ' . $produit['merchant_category_name']    );
+        $stmt->bindValue("softdeleted", NULL);
+        $stmt->bindValue("description", $produit['description']);
+        $stmt->bindValue("url", $produit['productUrl']);
+        $stmt->bindValue("short_url", md5($produit['url_product']));
+        $stmt->bindValue("source_type", 'csv');
+        $stmt->bindValue("logostore", NULL);
+
+        $stmt->execute();
+    }
 
 
 }

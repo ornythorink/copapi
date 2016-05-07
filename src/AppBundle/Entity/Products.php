@@ -46,6 +46,14 @@ class Products
     /**
      * @var string
      *
+     * @ORM\Column(name="ean", type="string", length=255)
+     */
+    private $ean;
+
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="price", type="decimal", scale=2)
      */
     private $price;
@@ -340,6 +348,23 @@ class Products
         $this->name = $name;
 
         return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getEan()
+    {
+        return $this->ean;
+    }
+
+    /**
+     * @param string $ean
+     */
+    public function setEan($ean)
+    {
+        $this->ean = $ean;
     }
 
 

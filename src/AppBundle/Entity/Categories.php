@@ -24,6 +24,13 @@ class Categories
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="silo", type="integer", nullable=false)
+     */
+    private $silo;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name_categorie", type="string", length=255, nullable=false)
@@ -60,9 +67,9 @@ class Categories
     private $actif;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="order", type="boolean", nullable=false)
+     * @ORM\Column(name="order", type="integer", nullable=false)
      */
     private $order;
 
@@ -84,6 +91,31 @@ class Categories
     {
         return $this->id;
     }
+
+
+    /**
+     * Get silo
+     *
+     * @return integer
+     */
+    public function getSilo()
+    {
+        return $this->silo;
+    }
+
+    /**
+     * Set silo
+     *
+     * @param string $silo
+     * @return Categories
+     */
+    public function setSilo($silo)
+    {
+        $this->silo = $silo;
+
+        return $this;
+    }
+
 
     /**
      * Set nameCategorie

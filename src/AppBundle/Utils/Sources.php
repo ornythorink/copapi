@@ -24,6 +24,12 @@ class Sources
                 'merchantCategoryName' => 'merchantCategoryName',
                 'separator' => '|',
             ),
+        'eff' =>
+            array(
+                'prefix'               => 'Eff',
+                'merchantCategoryName' => 'merchantCategoryName',
+                'separator' => '|',
+            ),
     );
 
     public static function getSourceKey($source, $key)
